@@ -1,4 +1,28 @@
 from flask import Flask, render_template, request, jsonify, session
+import requests
+import os
+from datetime import datetime
+import secrets
+from functools import wraps
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+app = Flask(__name__)
+app.secret_key = secrets.token_hex(16)
+
+# API Configuration - Read from environment variable
+API_BASE_URL = "https://api.balldontlie.io/fifa/worldcup/v1"
+API_KEY = os.environ.get('FIFA_API_KEY')
+
+# Check if API key is set
+if not API_KEY:
+    print("⚠️ WARNING: FIFA_API_KEY environment variable not set!")
+    print("Please create a .env file with: FIFA_API_KEY=your_api_key_here")
+
+# API Headers
+headers = {'Authorization': API_KEY} if API_KEY else {}from flask import Flask, render_template, request, jsonify, session
 import pandas as pd
 import os
 import json
